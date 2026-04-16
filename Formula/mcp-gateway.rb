@@ -6,20 +6,20 @@ class McpGateway < Formula
   if OS.mac?
     if Hardware::CPU.arm?
       url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.0/mcp-gateway-darwin-arm64"
-      sha256 "95960c52a90a6f7472711bb33b293cf2dcde1aee36991480328635f7a552f764"
+      sha256 "7e7c00c858d1fad4952bfa7dcf59a397b2cef8f7966de148858d81985c328f7b"
     else
       url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.0/mcp-gateway-darwin-amd64"
-      sha256 "2b6ae51ea54c3cdf59a8e10232b23944f8796a96c4b97dc031049e424a327094"
+      sha256 "c4dccbf6125fab3529a9cdd773653f2f6ea19c9b4c13eb6cba85909fba7ac764"
     end
   end
 
   if OS.linux?
     if Hardware::CPU.arm?
       url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.0/mcp-gateway-linux-arm64"
-      sha256 "57f4eeffa1665d675921f301dc3aa76b68b6cddfec5f88bb926336e398d0b9f2"
+      sha256 "1e2d2eb70cebb74078c48e46b8f33eab43c6104aa6d77b9318282e533bba7346"
     else
       url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.0/mcp-gateway-linux-amd64"
-      sha256 "4561bd9eb3e9eb14b5f6e9168f254304fe0614bf8268cc5a9cd1d63fcfd805a8"
+      sha256 "8e177868b245290e5484825429adc599cc838d0c1870ff36805c44cf70dc7967"
     end
   end
 
@@ -80,7 +80,7 @@ class McpGateway < Formula
 
   service do
     run opt_bin/"mcp-gateway"
-    run_args ["--config", etc/"mcp-gateway/config.json"]
+    args "--config", etc/"mcp-gateway/config.json"
     keep_alive true
     working_dir HOMEBREW_PREFIX
     log_path "#{var}/log/mcp-gateway.log"
