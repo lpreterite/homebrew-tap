@@ -3,25 +3,23 @@ class McpGateway < Formula
   homepage "https://github.com/lpreterite/mcp-gateway"
   version "v1.0.0"
 
-  depends_on "go" => :build
-
   if OS.mac?
     if Hardware::CPU.arm?
       url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.0/mcp-gateway-darwin-arm64"
-      sha256 "f0e60ccb1b3102666454694903d22e4883b6d1ade8bb29d81bf7e69d9d78b764"
+      sha256 "95960c52a90a6f7472711bb33b293cf2dcde1aee36991480328635f7a552f764"
     else
       url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.0/mcp-gateway-darwin-amd64"
-      sha256 "ef021305ab64dced084bbd01595f499518c985a3297c83008aa51ec9a162e84f"
+      sha256 "2b6ae51ea54c3cdf59a8e10232b23944f8796a96c4b97dc031049e424a327094"
     end
   end
 
   if OS.linux?
     if Hardware::CPU.arm?
       url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.0/mcp-gateway-linux-arm64"
-      sha256 "a30d16ecc0d34426f7bb2c2dd34d1ffe444ace64ece82b8e6f6a9981b0413963"
+      sha256 "57f4eeffa1665d675921f301dc3aa76b68b6cddfec5f88bb926336e398d0b9f2"
     else
       url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.0/mcp-gateway-linux-amd64"
-      sha256 "f2c02b1f90c483c90b6ddea7a88812347c30e016a382d1b837e6f92785891cac"
+      sha256 "4561bd9eb3e9eb14b5f6e9168f254304fe0614bf8268cc5a9cd1d63fcfd805a8"
     end
   end
 
@@ -39,6 +37,54 @@ class McpGateway < Formula
         bin.install "mcp-gateway-linux-amd64" => "mcp-gateway"
       end
     end
+
+    # 生成示例配置文件
+    (etc/"mcp-gateway").mkpath
+    (etc/"mcp-gateway/config.json").write <<~JSON
+      {
+        "gateway": {
+          "host": "0.0.0.0",
+          "port": 4298,
+          "cors": true
+        },
+        "pool": {
+          "minConnections": 1,
+          "maxConnections": 5
+        },
+        "servers": [
+          {
+            "name": "example",
+            "type": "local",
+            "command": ["echo", "hello"],
+            "enabled": true,
+            "poolSize": 1
+          }
+        ],
+        "mapping": {}
+      }
+    JSON
+  end
+
+  def post_install
+    ohai "MCP Gateway 安装完成！"
+    ohai ""
+    ohai "配置文件: #{etc}/mcp-gateway/config.json"
+    ohai "日志文件: #{var}/log/mcp-gateway.log"
+    ohai ""
+    ohai "请编辑 #{etc}/mcp-gateway/config.json 添加你的 MCP 服务器"
+    ohai ""
+    ohai "启动服务: brew services start #{name}"
+    ohai "停止服务: brew services stop #{name}"
+    ohai "查看日志: tail -f #{var}/log/mcp-gateway.log"
+  end
+
+  service do
+    run opt_bin/"mcp-gateway"
+    run_args ["--config", etc/"mcp-gateway/config.json"]
+    keep_alive true
+    working_dir HOMEBREW_PREFIX
+    log_path "#{var}/log/mcp-gateway.log"
+    error_log_path "#{var}/log/mcp-gateway.err.log"
   end
 
   test do
