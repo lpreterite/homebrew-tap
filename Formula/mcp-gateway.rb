@@ -1,25 +1,25 @@
 class McpGateway < Formula
   desc "MCP 统一网关 - 连接多个 MCP 服务器的统一网关"
   homepage "https://github.com/lpreterite/mcp-gateway"
-  version "v1.0.0"
+  version "v1.0.1"
 
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.0/mcp-gateway-darwin-arm64"
-      sha256 "2c52fcb1bceb32fcabc2eac6b4e45f77a0dd7b15a7ab7cb60c95dc2b3d2ae2a7"
+      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.1/mcp-gateway-darwin-arm64"
+      sha256 "bf26fc7fb1f633c80bc28e184d75a7cecffea8ef0236dac251d9794d746d9a74"
     else
-      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.0/mcp-gateway-darwin-amd64"
-      sha256 "9ebeb545a895275665139239f4331747fdd0b78e8a7c39a4be3ec78136342986"
+      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.1/mcp-gateway-darwin-amd64"
+      sha256 "1f7cf4d1949324252d960a8a61c10e8240f16d226eff741db842b24d225a3e79"
     end
   end
 
   if OS.linux?
     if Hardware::CPU.arm?
-      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.0/mcp-gateway-linux-arm64"
-      sha256 "a43c65538ddc04b8b17f016fbb2aec33fa1ed513954e5f360f3696c8afab288a"
+      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.1/mcp-gateway-linux-arm64"
+      sha256 "7c67cd209fbc7715d9d59da67c5c8a3077abbc01f2e91ac3857519c65c971c53"
     else
-      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.0/mcp-gateway-linux-amd64"
-      sha256 "ac2c9d24913d9bbf540480a41da6ef2de35311815d4c0544bf26272a57c6e2ef"
+      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.1/mcp-gateway-linux-amd64"
+      sha256 "dfb3a416f488a67c20623219613435a1e10f2b94f0db0854a54cabb0c29f7319"
     end
   end
 
@@ -49,7 +49,9 @@ class McpGateway < Formula
         },
         "pool": {
           "minConnections": 1,
-          "maxConnections": 5
+          "maxConnections": 5,
+          "acquireTimeout": 5000,
+          "idleTimeout": 30000
         },
         "servers": [
           {
