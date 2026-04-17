@@ -1,15 +1,15 @@
 class McpGateway < Formula
   desc "MCP 统一网关 - 连接多个 MCP 服务器的统一网关"
   homepage "https://github.com/lpreterite/mcp-gateway"
-  version "v1.0.2"
+  version "v1.0.3"
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.2/mcp-gateway-darwin-arm64"
-      sha256 "84fe7a56165527f049958895c8eea01e073c6678e754b83989b208aa73bbd3b1"
+      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.3/mcp-gateway-darwin-arm64"
+      sha256 "27a22cb77493a274415c0262e21d902940a010279811da7f2ad8266f685b385b"
     else
-      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.2/mcp-gateway-darwin-amd64"
-      sha256 "0dbdccb0d78ee4989465223bc030722e7a0a4dd868254403ececd16939876f80"
+      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.3/mcp-gateway-darwin-amd64"
+      sha256 "c90d5a45b3e27cb64f7ae0e573aa49c7b3f3d0911506da224e0a0c9560328d4d"
     end
   end
 
