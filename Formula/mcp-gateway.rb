@@ -1,40 +1,24 @@
 class McpGateway < Formula
   desc "MCP 统一网关 - 连接多个 MCP 服务器的统一网关"
   homepage "https://github.com/lpreterite/mcp-gateway"
-  version "v1.0.1"
+  version "v1.0.2"
 
-  if OS.mac?
+  on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.1/mcp-gateway-darwin-arm64"
-      sha256 "bf26fc7fb1f633c80bc28e184d75a7cecffea8ef0236dac251d9794d746d9a74"
+      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.2/mcp-gateway-darwin-arm64"
+      sha256 "84fe7a56165527f049958895c8eea01e073c6678e754b83989b208aa73bbd3b1"
     else
-      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.1/mcp-gateway-darwin-amd64"
-      sha256 "1f7cf4d1949324252d960a8a61c10e8240f16d226eff741db842b24d225a3e79"
-    end
-  end
-
-  if OS.linux?
-    if Hardware::CPU.arm?
-      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.1/mcp-gateway-linux-arm64"
-      sha256 "7c67cd209fbc7715d9d59da67c5c8a3077abbc01f2e91ac3857519c65c971c53"
-    else
-      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.1/mcp-gateway-linux-amd64"
-      sha256 "dfb3a416f488a67c20623219613435a1e10f2b94f0db0854a54cabb0c29f7319"
+      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.0.2/mcp-gateway-darwin-amd64"
+      sha256 "0dbdccb0d78ee4989465223bc030722e7a0a4dd868254403ececd16939876f80"
     end
   end
 
   def install
-    if OS.mac?
+    on_macos do
       if Hardware::CPU.arm?
         bin.install "mcp-gateway-darwin-arm64" => "mcp-gateway"
       else
         bin.install "mcp-gateway-darwin-amd64" => "mcp-gateway"
-      end
-    else
-      if Hardware::CPU.arm?
-        bin.install "mcp-gateway-linux-arm64" => "mcp-gateway"
-      else
-        bin.install "mcp-gateway-linux-amd64" => "mcp-gateway"
       end
     end
 
@@ -73,22 +57,35 @@ class McpGateway < Formula
     ohai "配置文件: #{etc}/mcp-gateway/config.json"
     ohai "日志文件: #{var}/log/mcp-gateway.log"
     ohai ""
+    ohai "⚠️  重要提示："
+    ohai "1. brew services 暂不支持此 formula"
+    ohai "2. 推荐使用 launchd 脚本管理服务（自动解决 PATH 环境变量问题）"
+    ohai ""
+    ohai "📥 获取 launchd 安装脚本："
+    ohai "   curl -fsSL https://github.com/lpreterite/mcp-gateway/releases/download/#{version}/install-launchd.sh -o install-launchd.sh"
+    ohai "   chmod +x install-launchd.sh"
+    ohai ""
+    ohai "🚀 安装并启动服务："
+    ohai "   ./install-launchd.sh install"
+    ohai ""
+    ohai "📋 常用命令："
+    ohai "   ./install-launchd.sh status    # 检查服务状态"
+    ohai "   ./install-launchd.sh logs      # 查看日志"
+    ohai "   ./install-launchd.sh restart   # 重启服务"
+    ohai "   ./install-launchd.sh uninstall # 卸载服务"
+    ohai ""
+    ohai "📖 完整文档："
+    ohai "   https://github.com/lpreterite/mcp-gateway/blob/main/docs/brew-installation-issues.md"
+    ohai ""
     ohai "请编辑 #{etc}/mcp-gateway/config.json 添加你的 MCP 服务器"
     ohai ""
-    ohai "启动服务: brew services start #{name}"
-    ohai "停止服务: brew services stop #{name}"
-    ohai "查看日志: tail -f #{var}/log/mcp-gateway.log"
-  end
-
-  service do
-    run [opt_bin/"mcp-gateway", "--config", etc/"mcp-gateway/config.json"]
-    keep_alive true
-    working_dir HOMEBREW_PREFIX
-    log_path "#{var}/log/mcp-gateway.log"
-    error_log_path "#{var}/log/mcp-gateway.err.log"
+    ohai "🔧 配置注意事项："
+    ohai "- 使用完整路径（如 /Users/you/.nvm/versions/node/v22.21.0/bin/npx）"
+    ohai "- 不支持 type='remote'，必须使用 type='local'"
   end
 
   test do
-    system "#{bin}/mcp-gateway", "--version"
+    assert_match /version/, shell_output("#{bin}/mcp-gateway --version")
+    assert_match /mcp-gateway/, shell_output("#{bin}/mcp-gateway --help")
   end
 end
