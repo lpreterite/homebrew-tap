@@ -6,10 +6,10 @@ class McpGateway < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.2.2/mcp-gateway-darwin-arm64"
-      sha256 "20d02639b706490482ede65546af611aa0885e58883112c43de3d000aefcc079"
+      sha256 "129d493b644806571d0a8ccd88a4d7700cb1f8e274037c2eac51e67b4e7684e7"
     else
       url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.2.2/mcp-gateway-darwin-amd64"
-      sha256 "eee6eb28ca3674508942d17eae50382c75287e45944ccf4a9301265b8b80acf7"
+      sha256 "149d331a184b09811a0c77c22ea900b895a2060dc56330d1478cb2843823537e"
     end
   end
 
