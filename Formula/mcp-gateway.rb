@@ -1,15 +1,15 @@
 class McpGateway < Formula
   desc "MCP 统一网关 - 连接多个 MCP 服务器的统一网关"
   homepage "https://github.com/lpreterite/mcp-gateway"
-  version "v1.2.3"
+  version "v1.2.4"
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.2.3/mcp-gateway-darwin-arm64"
-      sha256 "fcb361eac655ddc6c44c71e2130c7e217dbdc7ef0a928ef29fec73e6d0115253"
+      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.2.4/mcp-gateway-darwin-arm64"
+      sha256 "ba5c1e54899d763038974e5f774d2e61f5f16c3e0e07b2cb3e3a061c29327ca7"
     else
-      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.2.3/mcp-gateway-darwin-amd64"
-      sha256 "c7baa74c0b4aeeb91a9dc723f422e13a1fed12d03fe400aa3b77f001f1b0d65e"
+      url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.2.4/mcp-gateway-darwin-amd64"
+      sha256 "cac72067535b5f8cea7683854b992c6e22503f92efb69aebd8a1514f6e72b9d3"
     end
   end
 
@@ -24,7 +24,7 @@ class McpGateway < Formula
 
     # 生成示例配置文件
     (etc/"mcp-gateway").mkpath
-    (etc/"mcp-gateway/config.json").write <<~JSON
+    (etc/"mcp-gateway/config.json").write <<~JSON, backup: true
       {
         "gateway": {
           "host": "0.0.0.0",
