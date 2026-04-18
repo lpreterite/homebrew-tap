@@ -6,10 +6,10 @@ class McpGateway < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.2.4/mcp-gateway-darwin-arm64"
-      sha256 "ba5c1e54899d763038974e5f774d2e61f5f16c3e0e07b2cb3e3a061c29327ca7"
+      sha256 "a01a3fc04406709adbeabe5181383f85308a55bba0fda706926cb947714e3029"
     else
       url "https://github.com/lpreterite/mcp-gateway/releases/download/v1.2.4/mcp-gateway-darwin-amd64"
-      sha256 "cac72067535b5f8cea7683854b992c6e22503f92efb69aebd8a1514f6e72b9d3"
+      sha256 "3a041ea64fc298a05ecce0e12efbb82f8999c3257bca85f6c430f0bcccab53d2"
     end
   end
 
@@ -22,33 +22,36 @@ class McpGateway < Formula
       end
     end
 
-    # 生成示例配置文件
-    (etc/"mcp-gateway").mkpath
-    (etc/"mcp-gateway/config.json").write <<~JSON, backup: true
-      {
-        "gateway": {
-          "host": "0.0.0.0",
-          "port": 4298,
-          "cors": true
-        },
-        "pool": {
-          "minConnections": 1,
-          "maxConnections": 5,
-          "acquireTimeout": 5000,
-          "idleTimeout": 30000
-        },
-        "servers": [
-          {
-            "name": "example",
-            "type": "local",
-            "command": ["echo", "hello"],
-            "enabled": true,
-            "poolSize": 1
-          }
-        ],
-        "mapping": {}
-      }
-    JSON
+    # 生成示例配置文件（仅当配置文件不存在时写入）
+    config_file = etc/"mcp-gateway/config.json"
+    unless config_file.exist?
+      (etc/"mcp-gateway").mkpath
+      config_file.write <<~JSON
+        {
+          "gateway": {
+            "host": "0.0.0.0",
+            "port": 4298,
+            "cors": true
+          },
+          "pool": {
+            "minConnections": 1,
+            "maxConnections": 5,
+            "acquireTimeout": 5000,
+            "idleTimeout": 30000
+          },
+          "servers": [
+            {
+              "name": "example",
+              "type": "local",
+              "command": ["echo", "hello"],
+              "enabled": true,
+              "poolSize": 1
+            }
+          ],
+          "mapping": {}
+        }
+      JSON
+    end
   end
 
   def post_install
